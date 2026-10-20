@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A3 · Practice conversation with Sam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#070d18;--panel:#14243b;--panel2:#1b3050;--teal:#2A7F8E;--teal2:#5fc3d3;--gold:#f2c14e;--ok:#5fd38a;--bad:#ff7a70;--txt:#e8eef7;--mut:#9fb0c7;--line:#2d4668}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{background:radial-gradient(1200px 700px at 50% 20%,#10213a,#070d18);color:var(--txt);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:14px}
+.px{font-family:"Press Start 2P","Courier New",monospace}
+#app{max-width:1040px;margin:0 auto;height:calc(100vh - 28px);min-height:560px;display:flex;flex-direction:column;background:var(--panel);border:3px solid var(--teal2);box-shadow:0 0 0 3px #04101e,10px 10px 0 rgba(0,0,0,.45);border-radius:4px;overflow:hidden}
+header{display:flex;gap:10px;align-items:center;padding:10px 14px;background:#0b1626;border-bottom:3px solid #1d3a5c;flex-wrap:wrap}
+header h1{margin:0;font-size:11px;font-weight:400;color:var(--gold);line-height:1.5}
+.grow{flex:1}
+.btn{font:700 13px system-ui,sans-serif;color:#fff;background:var(--teal);border:0;border-bottom:4px solid #1b5560;border-radius:4px;padding:8px 14px;cursor:pointer}
+.btn:hover{background:#34909f}.btn:active{transform:translateY(2px);border-bottom-width:2px}
+.btn.ghost{background:#1d3250;border-bottom-color:#12233a}.btn.ghost:hover{background:#27426a}
+.btn.gold{background:#c9972c;border-bottom-color:#8a6619;color:#1a1204}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:focus-visible,textarea:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.seg{display:flex;gap:4px}.seg button{font:600 12px system-ui;color:#cfe3ff;background:#1b3050;border:2px solid var(--line);border-radius:4px;padding:6px 10px;cursor:pointer}.seg button[aria-pressed=true]{background:var(--teal);border-color:var(--teal2);color:#fff}
+main{flex:1;min-height:0;display:grid;grid-template-columns:290px 1fr}
+aside{padding:14px;border-right:3px solid #1d3a5c;background:#101e33;overflow:auto;display:flex;flex-direction:column;gap:10px}
+#pc{width:192px;height:192px;image-rendering:pixelated;border:3px solid var(--line);border-radius:6px;align-self:center;background:#27405f}
+.name{text-align:center;font-weight:700}.mood{display:block;text-align:center;font-size:12px;color:var(--mut)}
+.chip{display:inline-block;font-size:12px;padding:2px 9px;border-radius:99px;background:#1f3a5f;border:1px solid var(--line);color:#cfe3ff}
+.brief{font-size:13px;color:#cfe3ff;background:#0f1c30;border-left:4px solid var(--gold);padding:8px 10px;border-radius:3px}
+details{font-size:13px;color:#cfe3ff}summary{cursor:pointer;color:var(--teal2);font-weight:600}
+details ul{margin:6px 0 0;padding-left:18px}
+section.chat{display:flex;flex-direction:column;min-height:0}
+#log{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
+.m{max-width:78%;padding:9px 13px;border-radius:12px;border:2px solid var(--line);white-space:pre-wrap;word-wrap:break-word}
+.m.sam{align-self:flex-start;background:#1b3050;border-bottom-left-radius:3px}
+.m.you{align-self:flex-end;background:#17525d;border-color:var(--teal2);border-bottom-right-radius:3px}
+.m .who{display:block;font-size:11px;color:var(--mut);margin-bottom:2px;font-weight:700;letter-spacing:.3px}
+.sys{align-self:center;font-size:12.5px;color:var(--mut);font-style:italic;text-align:center;max-width:90%}
+.typing span{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--mut);margin:0 2px;animation:b 1s infinite}.typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}
+@keyframes b{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)}}
+form{display:flex;gap:8px;padding:10px 12px;border-top:3px solid #1d3a5c;background:#0b1626}
+textarea{flex:1;resize:none;background:#0f1c30;color:var(--txt);border:2px solid var(--line);border-radius:6px;padding:9px 11px;font:inherit;height:58px}
+.turn{font-size:12px;color:var(--mut);padding:0 14px 6px;background:#0b1626}
+.overlay{position:fixed;inset:0;background:rgba(4,9,18,.76);display:flex;align-items:center;justify-content:center;padding:14px;z-index:20}
+.panel{width:min(780px,100%);max-height:92vh;overflow:auto;background:var(--panel);border:3px solid var(--teal2);box-shadow:0 0 0 3px #04101e,10px 10px 0 rgba(0,0,0,.45);border-radius:4px;padding:18px 22px}
+.panel h2{margin:0 0 6px}.panel h3{margin:14px 0 6px;color:var(--teal2);font-size:15px}
+.mut{color:var(--mut)}.small{font-size:13px}
+label.f{display:block;font-size:13px;color:var(--mut);margin:10px 0 3px}
+input[type=text],input[type=password]{width:100%;background:#0b1626;color:var(--txt);border:2px solid var(--line);border-radius:5px;padding:9px 11px;font:inherit}
+.crit{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:10px 12px;background:#10213a;border:2px solid var(--line);border-radius:5px;margin-bottom:8px}
+.crit .cm{grid-column:1/-1;font-size:13.5px;color:#cfe3ff}.crit .qt{display:block;margin-top:3px;font-size:12.5px;color:var(--mut)}
+.pill{font-size:12px;font-weight:700;padding:2px 10px;border-radius:99px;align-self:start}
+.pill.strong{background:#12311f;color:var(--ok);border:1px solid var(--ok)}.pill.developing{background:#3a3115;color:var(--gold);border:1px solid var(--gold)}.pill.not_yet{background:#3a1818;color:var(--bad);border:1px solid var(--bad)}
+pre{white-space:pre-wrap;background:#0b1626;padding:10px;border-radius:5px;font:12px/1.5 ui-monospace,monospace}
+.bar{display:flex;gap:10px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}
+.badge{font-size:11px;padding:2px 8px;border-radius:99px;border:1px solid var(--line);color:var(--mut)}.badge.live{color:var(--ok);border-color:var(--ok)}
+@media (max-width:760px){main{grid-template-columns:1fr;grid-template-rows:auto 1fr}aside{border-right:0;border-bottom:3px solid #1d3a5c;flex-direction:row;flex-wrap:wrap;max-height:240px}#pc{width:96px;height:96px}.m{max-width:92%}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
+</style></head><body>
+<div id="app">
+<header><h1 class="px">PRACTICE WITH SAM</h1><span class="chip">A3 · Module 3 · LO4</span><span class="badge" id="mode">Demo mode</span><span class="grow"></span>
+ <div class="seg" role="group" aria-label="Practice moment"><button id="sA" aria-pressed="true">A · The opening</button><button id="sB" aria-pressed="false">B · “It’s not my fault”</button></div>
+ <button class="btn ghost" id="bset" aria-label="Settings">⚙ Settings</button><button class="btn gold" id="bend">End &amp; get feedback</button></header>
+<main>
+<aside><canvas id="pc" width="48" height="48" aria-label="Portrait of Sam"></canvas><div class="name">Sam <span class="mood" id="mood" aria-live="polite">neutral</span></div>
+ <div class="brief" id="brief"></div>
+ <details open><summary>Skills to try</summary><ul><li><b>Observation first:</b> a fact or number, not a judgement (Situation–Behaviour–Impact)</li><li><b>Open questions:</b> “What…”, “How…”, “Talk me through…”</li><li><b>Active listening:</b> paraphrase, then check you’ve understood</li><li>Avoid “always / never / why didn’t you…”</li></ul></details>
+ <details><summary>The scorecard</summary><ul><li>Close rate: 31% → 25% → 18% (target 30%)</li><li>Team average: 30% → 29% → 29%</li><li>Demos: 14, 14, 13 (team 15)</li><li>4 open proposals with no recorded activity for 3+ weeks</li></ul></details></aside>
+<section class="chat"><div id="log" role="log" aria-live="polite" aria-label="Conversation with Sam"></div><div class="turn" id="turn"></div>
+<form id="f"><textarea id="in" aria-label="Your message to Sam" placeholder="Type what you would say to Sam… (Enter to send, Shift+Enter for a new line)"></textarea><button class="btn gold" id="send" type="submit">Send</button></form></section>
+</main></div>
+<script>
+'use strict';
+/* ============================================================
+   CONFIG: edit here, or use the ⚙ Settings panel at runtime.
+   ------------------------------------------------------------
+   API CONTRACT (all JSON, CORS must allow this page's origin)
+   POST {endpoint}/chat      body: {sessionId, scenario:"A3-sam", stage:"A"|"B", messages:[{role:"user"|"assistant", content}]}
+                             reply: {reply:string, expression:"neutral"|"defensive"|"open"|"concerned"}
+   POST {endpoint}/feedback  body: same as /chat
+                             reply: {summary:string, criteria:[{id,name,rating:"strong"|"developing"|"not_yet",comment,quote?}]}
+   GET  {endpoint}/health    reply: {ok:true}
+   Optional header: Authorization: Bearer <token>
+   ============================================================ */
+const CONFIG={mode:'demo',endpoint:'',token:''};
+try{const s=JSON.parse(localStorage.getItem('a3cfg')||'{}');Object.assign(CONFIG,s)}catch(e){}
+try{const q=new URLSearchParams(location.search);if(q.get('endpoint')){CONFIG.endpoint=q.get('endpoint');CONFIG.mode='live'}}catch(e){}
+const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const STAGES={
+ A:{brief:'<b>Practice A · The opening.</b> Start of Q4. Sam’s close rate fell from 31% to 18% against a 30% target while the team held steady, and four proposals have gone quiet. You have a private one-to-one. <b>Open by describing what you observed, then ask an open question.</b>',
+    first:'Hi. You wanted to see me?',expr:'neutral',safety:3},
+ B:{brief:'<b>Practice B · “It’s not my fault.”</b> You have just shared the numbers and Sam is already defensive. <b>Acknowledge the concern, paraphrase it, and return to the evidence, without dismissing it or simply conceding.</b>',
+    first:'Honestly? I don’t think this is on me. The new pricing approval process is a mess and nobody’s fixed it. Everyone knows that.',expr:'defensive',safety:2}};
+let stage='A',msgs=[],busy=false,sid=Math.random().toString(36).slice(2),expr='neutral',D=null;
+
+/* ---------- portrait ---------- */
+const pc=$('#pc'),pg=pc.getContext('2d');pg.imageSmoothingEnabled=false;
+function R(x,y,w,h,c){pg.fillStyle=c;pg.fillRect(x,y,w,h)}
+function drawSam(e,blink){
+  pg.clearRect(0,0,48,48);const gr=pg.createLinearGradient(0,0,0,48);gr.addColorStop(0,'#3b5f86');gr.addColorStop(1,'#1f3552');pg.fillStyle=gr;pg.fillRect(0,0,48,48);
+  R(30,4,14,16,'#8fc3e3');R(30,4,14,2,'#e9f6fb');R(36,4,1,16,'#e9f6fb');R(30,12,14,1,'#e9f6fb');
+  const skin='#d9a67f',sd='#b98763',hair='#5a3a24',hd='#3f2817',shirt='#4b7ea8',sh='#35597a';
+  R(7,37,34,11,shirt);R(7,37,34,2,'#6f9cc4');R(20,36,8,3,'#f2f4f8');R(22,36,4,5,'#e0e5ee');
+  if(e==='defensive'){R(9,39,30,5,sh);R(9,39,30,1,'#5a8db5');R(20,42,8,1,sh)}
+  R(21,31,6,6,sd);
+  R(14,10,20,23,skin);R(14,30,20,3,sd);R(12,19,2,5,skin);R(34,19,2,5,skin);R(12,20,1,3,sd);R(35,20,1,3,sd);
+  R(13,6,22,6,hair);R(12,8,3,13,hair);R(33,8,3,11,hair);R(14,11,13,3,hair);R(15,6,8,1,'#7a5438');R(30,12,3,2,hair);
+  const eye='#17151f';
+  if(!blink){R(19,20,3,3,eye);R(28,20,3,3,eye);R(19,20,1,1,'#fff');R(28,20,1,1,'#fff')}else{R(19,22,3,1,eye);R(28,22,3,1,eye)}
+  const br=(x,y,w)=>R(x,y,w,1,hd);
+  if(e==='defensive'){br(18,17,2);br(20,18,3);br(29,17,2);br(26,18,3);R(21,28,7,1,'#8a4a42');R(20,29,1,1,'#8a4a42');R(28,29,1,1,'#8a4a42')}
+  else if(e==='open'){br(18,16,5);br(27,16,5);R(21,28,7,1,'#a8564c');R(20,27,1,1,'#a8564c');R(28,27,1,1,'#a8564c');R(16,25,2,1,'#e6a08c');R(31,25,2,1,'#e6a08c')}
+  else if(e==='concerned'){br(18,18,2);br(20,17,3);br(29,18,2);br(26,17,3);R(23,28,4,1,'#a8564c');R(22,29,1,1,'#a8564c')}
+  else{br(18,17,5);br(27,17,5);R(22,28,5,1,'#a8564c')}
+  R(24,24,1,3,sd);
+  // outline pass on head silhouette is skipped; add soft border
+  pg.strokeStyle='#161224';pg.lineWidth=1;
+}
+let blinkT=0;function setExpr(e){expr=e||'neutral';$('#mood').textContent=({neutral:'neutral',defensive:'defensive',open:'open',concerned:'concerned'})[expr];drawSam(expr,false)}
+setInterval(()=>{drawSam(expr,true);setTimeout(()=>drawSam(expr,false),140)},4200);
+
+/* ---------- chat UI ---------- */
+function add(role,text){const d=document.createElement('div');if(role==='sys'){d.className='sys';d.textContent=text}else{d.className='m '+role;d.innerHTML='<span class="who">'+(role==='you'?'You':'Sam')+'</span>'+esc(text)}$('#log').appendChild(d);$('#log').scrollTop=1e9;return d}
+function turnInfo(){const n=msgs.filter(m=>m.role==='user').length;$('#turn').textContent='Your turns: '+n+' · aim for about 5–8, then choose “End & get feedback”.'}
+function start(s){stage=s;msgs=[];sid=Math.random().toString(36).slice(2);D={safety:STAGES[s].safety,rev:{a:false,c:false},n:0,pool:{}};
+  $('#log').innerHTML='';$('#brief').innerHTML=STAGES[s].brief;$('#sA').setAttribute('aria-pressed',s==='A');$('#sB').setAttribute('aria-pressed',s==='B');
+  add('sys',s==='A'?'You sit down with Sam in a quiet meeting room.':'You have just walked Sam through the Q3 scorecard.');
+  msgs.push({role:'assistant',content:STAGES[s].first});add('sam',STAGES[s].first);setExpr(STAGES[s].expr);turnInfo();$('#in').focus();
+  $('#mode').textContent=CONFIG.mode==='live'?'Live AI':'Demo mode';$('#mode').className='badge '+(CONFIG.mode==='live'?'live':'')}
+async function send(text){if(busy||!text.trim())return;busy=true;$('#send').disabled=true;
+  msgs.push({role:'user',content:text});add('you',text);$('#in').value='';turnInfo();
+  const ty=document.createElement('div');ty.className='m sam typing';ty.innerHTML='<span></span><span></span><span></span>';$('#log').appendChild(ty);$('#log').scrollTop=1e9;
+  let slow=setTimeout(()=>{if(busy)add('sys','Still thinking… if you are on a free-tier server it may be waking up (up to about 30 seconds).')},7000);
+  try{const r=CONFIG.mode==='live'?await api('/chat'):await demoReply(text);ty.remove();msgs.push({role:'assistant',content:r.reply});add('sam',r.reply);setExpr(r.expression)}
+  catch(e){ty.remove();add('sys','Could not reach the AI service ('+e.message+'). Check ⚙ Settings, or switch to Demo mode.');msgs.pop();add('sys','Your last message was not sent to Sam; send it again.')}
+  clearTimeout(slow);busy=false;$('#send').disabled=false;$('#in').focus();turnInfo()}
+async function api(path,body){const c=new AbortController(),t=setTimeout(()=>c.abort(),45000);
+  try{const r=await fetch(CONFIG.endpoint.replace(/\/$/,'')+path,{method:'POST',signal:c.signal,headers:Object.assign({'Content-Type':'application/json'},CONFIG.token?{Authorization:'Bearer '+CONFIG.token}:{}),body:JSON.stringify(body||{sessionId:sid,scenario:'A3-sam',stage,messages:msgs})});
+    if(!r.ok)throw new Error('HTTP '+r.status);return await r.json()}catch(e){throw new Error(e.name==='AbortError'?'timed out':e.message)}finally{clearTimeout(t)}}
+
+/* ---------- demo engine (rule-based stand-in for the AI) ---------- */
+const RX={blame:/lazy|unmotivated|disengag|checked out|doesn.t care|don.t care|attitude|careless|slack|excuse|your fault|unacceptable|not good enough|you always|you never|why (have|are|did|didn.t|don.t) you/i,
+ ev:/\d|%|proposal|crm|close rate|demo|scorecard|follow-up|follow up|quarter|numbers|data/i,
+ open:/^\s*(what|how|tell me|talk me|walk me|help me|could you tell|can you tell|can you walk)|what.s (changed|been)|what has changed|how do you see|what would help|what.s getting in/i,
+ para:/(so you.re saying|it sounds like|what i.m hearing|if i understand|let me check|so if i.ve got|you.re saying|so the|sounds like)/i,
+ lead:/don.t you think|isn.t it true|are you going to|you should have|would you agree|is it that|is it the .* that/i,
+ dismiss:/(no excuse|doesn.t matter|everyone (else )?has|just excuses|that.s not (really )?relevant|regardless|but the numbers|but the data)/i,
+ concede:/(not your fault|isn.t on you|you.re right,? (it|this))/i,
+ emp:/(understand|appreciate|thanks|thank you|hear you|that sounds|frustrat)/i,
+ appr:/pric|approv|sign-?off|finance|process|proposal|stuck|waiting/i,
+ acct:/changed|pipeline|account|since q1|q2|different|territory|lost/i};
+const REP={
+ def:['That’s easy to say from where you sit. The numbers don’t show what I’m dealing with.','I don’t think that’s fair. I’m doing the work, and it’s not getting me anywhere.','Look, I’ve heard this before. Can we talk about what’s actually going wrong, not just my numbers?'],
+ guard:['It’s… complicated. I’m not sure where to start.','Maybe. I’d need to think about how to explain it.','I could say a lot of things. I’m not sure it would help.'],
+ nudge:['Mm. Go on.','Okay. What are you getting at?','Right. And?'],
+ appr:'Since the new pricing sign-off came in, every proposal over a certain size has to go to Finance. It used to take two days. Now it’s eight to ten. By then the clinic has gone cold or found someone else. Clinic D has been waiting on a number from me for a month.',
+ acct:'Honestly, losing my biggest account in Q2 hurt. It was about a third of my pipeline and it got reassigned. I’ve been rebuilding from scratch ever since, and some of the follow-up slipped while I did.',
+ close:'I didn’t think anyone wanted to hear this. Can we work out what would actually help?'};
+const pick=(k)=>{const a=REP[k];D.pool[k]=((D.pool[k]??-1)+1)%a.length;return a[D.pool[k]]};
+async function demoReply(t){await new Promise(r=>setTimeout(r,500+Math.random()*700));D.n++;
+  const f={}; for(const k in RX)f[k]=RX[k].test(t);let d=0;
+  if(f.blame)d-=2;if(f.lead)d-=1;if(f.dismiss)d-=1;if(f.ev&&D.n<=2)d+=1;if(f.open)d+=1;if(f.para)d+=2;if(f.emp)d+=1;D.safety=Math.max(0,Math.min(10,D.safety+d));
+  let reply,e;const s=D.safety;
+  if(f.blame||f.dismiss){reply=pick('def');e='defensive'}
+  else if(f.para&&s>=4){reply=!D.rev.a?'Yes, exactly. '+REP.appr:!D.rev.c?'Right. '+REP.acct:REP.close;e='open'}
+  else if(f.open||f.lead){
+    if(f.appr&&s>=4&&!D.rev.a){reply=REP.appr;e='concerned'}
+    else if(f.acct&&s>=5&&!D.rev.c){reply=REP.acct;e='concerned'}
+    else if(s>=5&&!D.rev.a){reply=REP.appr;e='concerned'}
+    else if(s>=6&&!D.rev.c){reply=REP.acct;e='concerned'}
+    else if(s>=7&&D.rev.a&&D.rev.c){reply=REP.close;e='open'}
+    else{reply=pick('guard');e=s>=4?'neutral':'defensive'}}
+  else if(f.ev){reply=s>=4?'Fair, those numbers are right. But there’s context you may not have.':'The numbers don’t tell the whole story.';e=s>=4?'neutral':'defensive'}
+  else{reply=pick('nudge');e=s>=5?'neutral':'defensive'}
+  if(reply.includes('eight to ten'))D.rev.a=true;if(reply.includes('biggest account'))D.rev.c=true;
+  if(D.rev.a&&D.rev.c&&!reply.includes('actually help')&&s>=6&&!f.blame)e='open';
+  return {reply,expression:e}}
+
+/* ---------- feedback ---------- */
+function localFeedback(){const u=msgs.filter(m=>m.role==='user').map(m=>m.content);const C=[];const q=(arr)=>arr.length?'“'+arr[0].slice(0,110)+(arr[0].length>110?'…':'')+'”':undefined;
+  const obs=u.filter(t=>RX.ev.test(t)&&/\d|%/.test(t)),ev1=u.slice(0,2).filter(t=>RX.ev.test(t));
+  C.push({id:'obs',name:'Starts from observation (Situation–Behaviour–Impact)',rating:obs.length&&ev1.length?'strong':ev1.length||obs.length?'developing':'not_yet',comment:obs.length?'You anchored the conversation in something observable.':'Open with a specific, observable fact (a number or a record) rather than an impression.',quote:q(obs.length?obs:ev1)});
+  const op=u.filter(t=>RX.open.test(t));C.push({id:'open',name:'Open questions',rating:op.length>=2?'strong':op.length?'developing':'not_yet',comment:op.length>=2?'You invited Sam to explain in his or her own words.':'Try more “What…”, “How…” or “Talk me through…” questions.',quote:q(op)});
+  const pa=u.filter(t=>RX.para.test(t)),em=u.filter(t=>RX.emp.test(t));C.push({id:'listen',name:'Active listening (paraphrase and check)',rating:pa.length?'strong':em.length?'developing':'not_yet',comment:pa.length?'You reflected back what you heard before moving on.':'Paraphrase what Sam said, then check you have understood (“So you’re saying…, is that right?”).',quote:q(pa.length?pa:em)});
+  const bl=u.filter(t=>RX.blame.test(t)),ld=u.filter(t=>RX.lead.test(t));C.push({id:'judge',name:'Avoids judgement and leading questions',rating:!bl.length&&!ld.length?'strong':bl.length+ld.length===1?'developing':'not_yet',comment:!bl.length&&!ld.length?'No blame language or loaded questions.':'Replace labels and loaded questions with a description of behaviour and an open question.',quote:q(bl.concat(ld))});
+  if(stage==='B'){const dis=u.filter(t=>RX.dismiss.test(t)),con=u.filter(t=>RX.concede.test(t)),back=u.filter(t=>RX.ev.test(t));const good=!dis.length&&!con.length&&back.length&&(pa.length||em.length);
+    C.push({id:'hold',name:'Holds the line: acknowledges without conceding or dismissing',rating:good?'strong':!dis.length&&!con.length?'developing':'not_yet',comment:good?'You acknowledged Sam’s concern and still returned to the evidence.':dis.length?'Dismissing the concern shuts the conversation down. Acknowledge it first, then return to evidence.':con.length?'Saying it isn’t Sam’s fault concedes too much before you know the cause.':'Acknowledge the concern, then bring the conversation back to the evidence.',quote:q(dis.concat(con))})}
+  else{const inv=u.filter(t=>/how do you see|your (view|side|take|perspective)|help me understand/i.test(t));C.push({id:'invite',name:'Invites Sam’s view',rating:inv.length?'strong':op.length?'developing':'not_yet',comment:inv.length?'You explicitly asked for Sam’s side.':'Say you want Sam’s view (“I’d like to understand your side. How do you see it?”).',quote:q(inv)})}
+  const s={strong:2,developing:1,not_yet:0},tot=C.reduce((a,c)=>a+s[c.rating],0);
+  return {summary:tot>=9?'A strong conversation: you stayed with the evidence and brought Sam into it.':tot>=5?'A good start with clear next steps. Look at the “developing” items below.':'There is room to grow. Start with one observable fact and one open question.',criteria:C}}
+async function feedback(){if(msgs.filter(m=>m.role==='user').length<2){return panel('<h2>Keep going a little longer</h2><p>Have at least two exchanges with Sam before asking for feedback.</p><div class="bar"><button class="btn gold" id="x" autofocus>Back to the conversation</button></div>')}
+  const p=panel('<h2>Preparing your feedback…</h2><p class="mut">Reading the conversation.</p>');
+  let fb;try{fb=CONFIG.mode==='live'?await api('/feedback'):localFeedback()}catch(e){fb=localFeedback();fb.summary='(Feedback service unavailable, showing local feedback.) '+fb.summary}
+  const lbl={strong:'Strong',developing:'Developing',not_yet:'Not yet'};
+  p.innerHTML=`<span class="chip">Practice ${stage}</span><h2>Your feedback</h2><p>${esc(fb.summary)}</p>${fb.criteria.map(c=>`<div class="crit"><b>${esc(c.name)}</b><span class="pill ${c.rating}">${lbl[c.rating]||c.rating}</span><div class="cm">${esc(c.comment)}${c.quote?`<span class="qt">Your words: ${esc(c.quote)}</span>`:''}</div></div>`).join('')}
+   <p class="mut small">${CONFIG.mode==='live'?'Generated by the AI coach from your transcript.':'Demo-mode feedback uses simple keyword rules. A live AI would read the whole conversation and give richer comments.'}</p>
+   <div class="bar"><button class="btn ghost" id="tx">Download transcript</button><button class="btn ghost" id="rt">Try again</button><button class="btn gold" id="x" autofocus>Back to the conversation</button></div>`;
+  $('#x').onclick=closeP;$('#rt').onclick=()=>{closeP();start(stage)};$('#tx').onclick=()=>{const t='PRACTICE '+stage+' · TRANSCRIPT\n\n'+msgs.map(m=>(m.role==='user'?'YOU: ':'SAM: ')+m.content).join('\n\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/plain'}));a.download='sam-practice-'+stage+'.txt';a.click()}}
+let ov=null;function panel(h){closeP();ov=document.createElement('div');ov.className='overlay';ov.innerHTML='<div class="panel" role="dialog" aria-modal="true" tabindex="-1">'+h+'</div>';document.body.appendChild(ov);const p=ov.firstChild;const x=$('#x');if(x)x.onclick=closeP;setTimeout(()=>(p.querySelector('[autofocus]')||p).focus(),20);ov.addEventListener('keydown',e=>{if(e.key==='Escape')closeP()});return p}
+function closeP(){if(ov){ov.remove();ov=null;$('#in').focus()}}
+
+/* ---------- settings ---------- */
+function settings(){const p=panel(`<h2>Settings</h2><p class="mut small">Demo mode uses a built-in rule-based Sam so you can try the widget without a server. Live mode calls your own AI service.</p>
+ <div class="seg" role="group" aria-label="Mode"><button id="md" aria-pressed="${CONFIG.mode!=='live'}">Demo (built-in)</button><button id="ml" aria-pressed="${CONFIG.mode==='live'}">Live AI (your endpoint)</button></div>
+ <label class="f" for="ep">Endpoint base URL (for example, https://your-service.onrender.com)</label><input type="text" id="ep" value="${esc(CONFIG.endpoint)}" placeholder="https://…">
+ <label class="f" for="tk">Access token (optional)</label><input type="password" id="tk" value="${esc(CONFIG.token)}" autocomplete="off">
+ <div id="tr" class="small mut" style="margin-top:8px" aria-live="polite"></div>
+ <details style="margin-top:12px"><summary>API contract the server must follow</summary><pre>POST /chat      {sessionId, scenario:"A3-sam", stage:"A"|"B", messages:[{role,content}]}
+             → {reply, expression:"neutral|defensive|open|concerned"}
+POST /feedback  same body
+             → {summary, criteria:[{id,name,rating:"strong|developing|not_yet",comment,quote?}]}
+GET  /health → {ok:true}
+Header (optional): Authorization: Bearer &lt;token&gt;
+CORS: allow the origin that serves this page.</pre></details>
+ <div class="bar"><button class="btn ghost" id="tt">Test connection</button><button class="btn gold" id="sv" autofocus>Save</button></div>`);
+  let mode=CONFIG.mode==='live'?'live':'demo';const set=m=>{mode=m;$('#md').setAttribute('aria-pressed',m==='demo');$('#ml').setAttribute('aria-pressed',m==='live')};$('#md').onclick=()=>set('demo');$('#ml').onclick=()=>set('live');
+  $('#tt').onclick=async()=>{const u=$('#ep').value.trim().replace(/\/$/,'');if(!u){$('#tr').textContent='Enter an endpoint URL first.';return}$('#tr').textContent='Testing… (a sleeping free-tier server can take up to 30 seconds)';
+    try{const r=await fetch(u+'/health',{headers:$('#tk').value?{Authorization:'Bearer '+$('#tk').value}:{}});const j=await r.json();$('#tr').textContent=j.ok?'✓ Connected.':'Server answered, but not as expected.'}catch(e){$('#tr').textContent='✗ Could not connect: '+e.message+' (check the URL and CORS).'}};
+  $('#sv').onclick=()=>{CONFIG.mode=mode;CONFIG.endpoint=$('#ep').value.trim();CONFIG.token=$('#tk').value;try{localStorage.setItem('a3cfg',JSON.stringify(CONFIG))}catch(e){}closeP();start(stage)}}
+
+$('#f').addEventListener('submit',e=>{e.preventDefault();send($('#in').value)});
+$('#in').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send($('#in').value)}});
+$('#sA').onclick=()=>start('A');$('#sB').onclick=()=>start('B');$('#bset').onclick=settings;$('#bend').onclick=feedback;
+start('A');
+</script></body></html>
